@@ -1,0 +1,3 @@
+include ':music-lib'
+include ':app'
+rootProject.name = "BottomMusicPlayer"

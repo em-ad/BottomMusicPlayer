@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AV Music Player</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="date_count_format">%1$d @%2$s</string>
+    <string name="text_delete">DELETE</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="text_menu">Menu</string>
+    <string name="text_saved_to_playlist">Saved to Favourites</string>
+</resources>
