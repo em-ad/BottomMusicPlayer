@@ -312,7 +312,7 @@ class MusicView extends FrameLayout implements
             mIvPlay.setBackground(getResources().getDrawable(android.R.drawable.ic_media_pause));
             mMediaLayout.setVisibility(View.VISIBLE);
             mTvTitle.setText(song.getTitle());
-            Glide.with(this).load(song.getThumbnail()).placeholder(R.drawable.play).error(R.drawable.play).centerCrop().into(mIvArtwork);
+            Glide.with(this).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
             // set Progress bar values
             songProgressBar.setProgress(0);
             songProgressBar.setMax(100);
