@@ -45,7 +45,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mSongListFiltered.size();
+        return mSongListFiltered == null ? 0 : mSongListFiltered.size();
+    }
+
+    public void setData(List<Song> mSongList) {
+        this.mSongList = mSongList;
+        this.mSongListFiltered = mSongList;
+        notifyDataSetChanged();
     }
 
     public void removeItem(int position) {

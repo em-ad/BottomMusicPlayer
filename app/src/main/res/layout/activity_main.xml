@@ -19,4 +19,23 @@
         android:fontFamily="sans-serif"
         android:padding="20dp"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/frame"
+        >
+
+        <com.emad.music_lib.MusicView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame2"
+            android:visibility="gone">
+
+        </com.emad.music_lib.MusicView>
+
+    </FrameLayout>
+
+
+
 </RelativeLayout>

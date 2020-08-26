@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MusicActivity.class));
+//                startActivity(new Intent(MainActivity.this, MusicActivity.class));
+                findViewById(R.id.frame2).setVisibility(View.VISIBLE);
             }
         });
     }
