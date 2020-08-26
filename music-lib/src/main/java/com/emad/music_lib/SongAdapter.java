@@ -40,7 +40,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
         Song song = mSongListFiltered.get(position);
         holder.title.setText(song.getTitle());
         holder.artist.setText(song.getArtist());
-        Glide.with(mContext).load(song.getThumbnail()).placeholder(R.drawable.play).error(R.drawable.play).centerCrop().into(holder.thumbnail);
+        Glide.with(mContext).load(song.getThumbnail()).placeholder(R.drawable.play).error(R.drawable.play).circleCrop().into(holder.thumbnail);
     }
 
     @Override
