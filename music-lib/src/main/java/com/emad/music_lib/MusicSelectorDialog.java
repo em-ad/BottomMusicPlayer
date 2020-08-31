@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-class MusicSelectorDialog extends Dialog
+public class MusicSelectorDialog extends Dialog
 implements SongAdapter.SongAdapterListener {
 
     private RecyclerView mRecyclerViewSongs;

@@ -111,7 +111,6 @@ class MusicView extends FrameLayout implements
         viewConversation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("tag", "onClick: " + viewModel );
                 dialog = new MusicSelectorDialog(context, viewModel);
                 dialog.show();
             }
@@ -128,7 +127,7 @@ class MusicView extends FrameLayout implements
             getSongList(context);
         checkIncomingCalls(context);
 
-        viewModel.getPlayingSong().observeForever(new Observer<Song>() {
+        viewModel.getPlayingSong().observe(((AppCompatActivity) context), new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
                 playSong(song);
