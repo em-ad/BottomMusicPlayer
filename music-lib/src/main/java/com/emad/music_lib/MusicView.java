@@ -58,7 +58,7 @@ class MusicView extends FrameLayout implements
     private ImageView img_repeat;
     private ImageView img_shuffle;
     private SeekBar songProgressBar;
-    private MediaPlayer mMediaPlayer;
+    private static MediaPlayer mMediaPlayer;
     private TextView mTvCurrentDuration;
     private TextView mTvTotalDuration;
     private TimeUtil timeUtil;
@@ -323,7 +323,7 @@ class MusicView extends FrameLayout implements
             updateProgressBar();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("tag", "playSong: " + e.getMessage());
+            Log.e("tag", "Play ERROR: " + e.getMessage());
         }
     }
 

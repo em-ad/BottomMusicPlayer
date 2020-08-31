@@ -30,5 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        getSupportFragmentManager().beginTransaction().add(new MusicTestFragment(), null).commit();
     }
 }
