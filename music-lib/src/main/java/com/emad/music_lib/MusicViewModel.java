@@ -27,7 +27,7 @@ public class MusicViewModel extends ViewModel {
     public void nextSong(){
         if(allSongs.getValue() == null)
             return;
-        if(allSongs.getValue().size() > currentIndex)
+        if(allSongs.getValue().size() > currentIndex + 1)
             playingSong.postValue(allSongs.getValue().get(++currentIndex));
         else {
             currentIndex = 0;

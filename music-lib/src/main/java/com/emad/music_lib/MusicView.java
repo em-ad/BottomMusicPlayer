@@ -68,7 +68,7 @@ class MusicView extends FrameLayout implements
 
     private PermissionCallback callback;
     private Context context;
-    private int currentSongIndex;
+    private int currentSongIndex = -1;
     private int count = 0; // initialise outside listener to prevent looping
     private boolean repeat = false;
     private boolean shuffle = false;
@@ -215,6 +215,7 @@ class MusicView extends FrameLayout implements
         img_shuffle = viewConversation.findViewById(R.id.img_shuffle);
         img_repeat = viewConversation.findViewById(R.id.img_repeat);
 
+
     }
 
     private void setUpListeners() {
@@ -300,6 +301,8 @@ class MusicView extends FrameLayout implements
     }
 
     public void playSong(Song song) {
+        mIvNext.setVisibility(VISIBLE);
+        mIvPrevious.setVisibility(VISIBLE);
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -333,6 +336,8 @@ class MusicView extends FrameLayout implements
 
     @Override
     public void onAudioFocusChange(int focusChange) {
+        if(currentSongIndex == -1)
+            return;
         // handling calls
         if (focusChange <= 0) {
             //LOSS -> PAUSE

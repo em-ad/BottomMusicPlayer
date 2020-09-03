@@ -67,6 +67,7 @@
                 android:ellipsize="end"
                 android:textAlignment="center"
                 android:textColor="@color/white"
+                android:text="برای انتخاب موسیقی اینجا را لمس کنید"
                 android:textSize="16sp"/>
 
             <LinearLayout
@@ -97,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_5"
+                    android:visibility="invisible"
                     android:src="@android:drawable/ic_media_previous" />
 
                 <ImageView
@@ -113,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_5"
+                    android:visibility="invisible"
                     android:src="@android:drawable/ic_media_next" />
             </LinearLayout>
 
