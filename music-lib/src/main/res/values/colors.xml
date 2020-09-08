@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bg_row_background">#D50000</color>
     <color name="item_name">#535353</color>
+    <color name="grey">#252525</color>
     <color name="description">#a9a9a9</color>
     <color name="white">#fff</color>
     <color name="transparent">#00ffffff</color>

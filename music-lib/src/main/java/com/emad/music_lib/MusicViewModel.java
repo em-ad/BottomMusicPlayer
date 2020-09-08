@@ -45,4 +45,8 @@ public class MusicViewModel extends ViewModel {
             playingSong.postValue(allSongs.getValue().get(currentIndex));
         }
     }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
 }

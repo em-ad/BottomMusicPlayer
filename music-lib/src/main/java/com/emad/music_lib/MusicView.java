@@ -132,7 +132,7 @@ class MusicView extends FrameLayout implements
             public void onChanged(Song song) {
                 playSong(song);
                 if (viewModel.getAllSongs().getValue() != null)
-                    currentSongIndex = viewModel.getAllSongs().getValue().indexOf(song);
+                    viewModel.setCurrentIndex(viewModel.getAllSongs().getValue().indexOf(song));
             }
         });
 
