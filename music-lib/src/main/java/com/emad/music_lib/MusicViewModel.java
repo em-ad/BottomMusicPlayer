@@ -49,4 +49,8 @@ public class MusicViewModel extends ViewModel {
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
     }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
 }

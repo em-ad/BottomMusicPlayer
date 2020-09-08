@@ -72,7 +72,7 @@ class MusicView extends FrameLayout implements
     private int count = 0; // initialise outside listener to prevent looping
     private boolean repeat = false;
     private boolean shuffle = false;
-    private MusicViewModel viewModel;
+    private static MusicViewModel viewModel;
 
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
@@ -127,7 +127,7 @@ class MusicView extends FrameLayout implements
             getSongList(context);
         checkIncomingCalls(context);
 
-        viewModel.getPlayingSong().observe(((AppCompatActivity) context), new Observer<Song>() {
+        viewModel.getPlayingSong().observeForever(new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
                 playSong(song);
@@ -173,12 +173,12 @@ class MusicView extends FrameLayout implements
             @Override
             public void onCompletion(MediaPlayer mp) {
                 if (repeat) {
-                 viewModel.repeatSong();
+                    viewModel.repeatSong();
                 } else if (shuffle) {
 //                    Random random = new Random();
 //                    currentSongIndex = random.nextInt((mSongList.size() - 1) + 1);
 //                    playSong(mSongList.get(currentSongIndex));
-                viewModel.nextSong();
+                    viewModel.nextSong();
                 } else {
                     viewModel.nextSong();
                 }
@@ -191,7 +191,6 @@ class MusicView extends FrameLayout implements
         if (mAudioManager != null) {
             mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
-
     }
 
     boolean checkPermission(Context context) {
@@ -201,6 +200,11 @@ class MusicView extends FrameLayout implements
 
     private void initViews(ViewGroup viewConversation) {
         mMediaPlayer = new MediaPlayer();
+        try{
+        mMediaPlayer.stop();}
+        catch (Exception e){
+            Log.e("tag", "initViews: " + e.getMessage() );
+        }
         timeUtil = new TimeUtil();
 
         mMediaLayout = viewConversation.findViewById(R.id.layout_media);
@@ -282,9 +286,10 @@ class MusicView extends FrameLayout implements
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.iv_play) {
-            playMusic();
+            if (viewModel.getPlayingSong().getValue() != null)
+                playMusic();
         } else if (id == R.id.iv_previous) {
-           viewModel.prevSong();
+            viewModel.prevSong();
         } else if (id == R.id.iv_next) {
             viewModel.nextSong();
         }
@@ -301,6 +306,7 @@ class MusicView extends FrameLayout implements
     }
 
     public void playSong(Song song) {
+        mIvPlay.setVisibility(VISIBLE);
         mIvNext.setVisibility(VISIBLE);
         mIvPrevious.setVisibility(VISIBLE);
         try {
@@ -336,7 +342,7 @@ class MusicView extends FrameLayout implements
 
     @Override
     public void onAudioFocusChange(int focusChange) {
-        if(currentSongIndex == -1)
+        if (currentSongIndex == -1)
             return;
         // handling calls
         if (focusChange <= 0) {

@@ -31,6 +31,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction().add(new MusicTestFragment(), null).commit();
+        getSupportFragmentManager().beginTransaction().add(new MusicSelectFragment(), null).commit();
     }
 }

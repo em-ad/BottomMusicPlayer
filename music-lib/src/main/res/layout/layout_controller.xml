@@ -101,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="@dimen/dp_5"
+                    android:visibility="invisible"
                     android:background="@android:drawable/ic_media_play"
                      />
 

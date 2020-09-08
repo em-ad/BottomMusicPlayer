@@ -54,7 +54,6 @@ public class MusicActivity extends AppCompatActivity implements
     private List<Song> mSongList = new ArrayList<>();
     private RecyclerView mRecyclerViewSongs;
     private SongAdapter mAdapter;
-    private CoordinatorLayout mCoordinatorLayout;
     private LinearLayout mMediaLayout;
     private TextView mTvTitle;
 
@@ -113,7 +112,6 @@ public class MusicActivity extends AppCompatActivity implements
         img_repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (repeat) {
                     repeat = false;
                     img_repeat.setAlpha(.5f);
@@ -123,7 +121,6 @@ public class MusicActivity extends AppCompatActivity implements
                     shuffle = false;
                     img_shuffle.setAlpha(.5f);
                 }
-
             }
         });
 
@@ -243,7 +240,6 @@ public class MusicActivity extends AppCompatActivity implements
         mMediaPlayer = new MediaPlayer();
         timeUtil = new TimeUtil();
         mRecyclerViewSongs = findViewById(R.id.recycler_view);
-        mCoordinatorLayout = findViewById(R.id.coordinator_layout);
         mMediaLayout = findViewById(R.id.layout_media);
         mIvArtwork = findViewById(R.id.iv_artwork);
         mIvPlay = findViewById(R.id.iv_play);
