@@ -45,7 +45,7 @@ public class MusicSelectFragment extends Fragment {
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getChildFragmentManager().beginTransaction().add(new MusicSelectFragment(), null).commit();
+                getChildFragmentManager().beginTransaction().add(R.id.root, new MusicTestFragment(), null).commit();
             }
         });
     }

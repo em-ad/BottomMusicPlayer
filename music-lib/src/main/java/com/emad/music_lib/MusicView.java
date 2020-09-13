@@ -58,7 +58,7 @@ class MusicView extends FrameLayout implements
     private ImageView img_repeat;
     private ImageView img_shuffle;
     private SeekBar songProgressBar;
-    private static MediaPlayer mMediaPlayer;
+    private MediaPlayer mMediaPlayer;
     private TextView mTvCurrentDuration;
     private TextView mTvTotalDuration;
     private TimeUtil timeUtil;
@@ -72,7 +72,7 @@ class MusicView extends FrameLayout implements
     private int count = 0; // initialise outside listener to prevent looping
     private boolean repeat = false;
     private boolean shuffle = false;
-    private static MusicViewModel viewModel;
+    private MusicViewModel viewModel;
 
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
@@ -130,6 +130,7 @@ class MusicView extends FrameLayout implements
         viewModel.getPlayingSong().observeForever(new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
+                Log.e("tag", "onChanged: " + song.getTitle() );
                 playSong(song);
                 if (viewModel.getAllSongs().getValue() != null)
                     viewModel.setCurrentIndex(viewModel.getAllSongs().getValue().indexOf(song));
@@ -305,36 +306,38 @@ class MusicView extends FrameLayout implements
         }
     }
 
-    public void playSong(Song song) {
+    public void playSong(final Song song) {
         mIvPlay.setVisibility(VISIBLE);
         mIvNext.setVisibility(VISIBLE);
         mIvPrevious.setVisibility(VISIBLE);
-        try{
-            mMediaPlayer.stop();
-        } catch (Exception e){
-            Log.e("tag", "playSong: " + e.getMessage() );
-        }
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setDataSource(context, Uri.parse(song.getSongLink()));
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mMediaPlayer.stop();
+                    mMediaPlayer.start();
+                    // Displaying Song title
+                    //      isPlaying = true;
+                    mIvPlay.setBackground(getResources().getDrawable(android.R.drawable.ic_media_pause));
+                    mMediaLayout.setVisibility(View.VISIBLE);
+                    mTvTitle.setText(song.getTitle());
+                    Glide.with(context).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
+                    // set Progress bar values
+                    songProgressBar.setProgress(0);
+                    songProgressBar.setMax(100);
+
+                    songProgressBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+                    songProgressBar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+
+                    // Updating progress bar
+                    updateProgressBar();
+                }
+            });
             mMediaPlayer.prepare();
-            mMediaPlayer.start();
-            // Displaying Song title
-            //      isPlaying = true;
-            mIvPlay.setBackground(getResources().getDrawable(android.R.drawable.ic_media_pause));
-            mMediaLayout.setVisibility(View.VISIBLE);
-            mTvTitle.setText(song.getTitle());
-            Glide.with(this).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
-            // set Progress bar values
-            songProgressBar.setProgress(0);
-            songProgressBar.setMax(100);
 
-            songProgressBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-            songProgressBar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-
-            // Updating progress bar
-            updateProgressBar();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("tag", "Play ERROR: " + e.getMessage());
