@@ -309,7 +309,11 @@ class MusicView extends FrameLayout implements
         mIvPlay.setVisibility(VISIBLE);
         mIvNext.setVisibility(VISIBLE);
         mIvPrevious.setVisibility(VISIBLE);
-        mMediaPlayer = new MediaPlayer();
+        try{
+            mMediaPlayer.stop();
+        } catch (Exception e){
+            Log.e("tag", "playSong: " + e.getMessage() );
+        }
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
