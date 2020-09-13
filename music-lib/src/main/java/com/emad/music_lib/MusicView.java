@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -43,7 +44,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-class MusicView extends FrameLayout implements
+public class MusicView extends FrameLayout implements
         View.OnClickListener, MediaPlayer.OnCompletionListener,
         AudioManager.OnAudioFocusChangeListener, SeekBar.OnSeekBarChangeListener {
 
@@ -58,7 +59,7 @@ class MusicView extends FrameLayout implements
     private ImageView img_repeat;
     private ImageView img_shuffle;
     private SeekBar songProgressBar;
-    private MediaPlayer mMediaPlayer;
+    private static MediaPlayer mMediaPlayer;
     private TextView mTvCurrentDuration;
     private TextView mTvTotalDuration;
     private TimeUtil timeUtil;
@@ -73,6 +74,7 @@ class MusicView extends FrameLayout implements
     private boolean repeat = false;
     private boolean shuffle = false;
     private MusicViewModel viewModel;
+    private Song currentSong = null;
 
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
@@ -130,7 +132,11 @@ class MusicView extends FrameLayout implements
         viewModel.getPlayingSong().observeForever(new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
-                Log.e("tag", "onChanged: " + song.getTitle() );
+                if (currentSong != null && currentSong.getTitle().equals(song.getTitle()))
+                    return;
+                if(currentSong != null)
+                    Log.e("tag", "onChanged: " + song.getTitle() + " " + currentSong.getTitle() );
+                currentSong = song;
                 playSong(song);
                 if (viewModel.getAllSongs().getValue() != null)
                     viewModel.setCurrentIndex(viewModel.getAllSongs().getValue().indexOf(song));
@@ -170,21 +176,21 @@ class MusicView extends FrameLayout implements
             }
         });
 
-        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (repeat) {
-                    viewModel.repeatSong();
-                } else if (shuffle) {
-//                    Random random = new Random();
-//                    currentSongIndex = random.nextInt((mSongList.size() - 1) + 1);
-//                    playSong(mSongList.get(currentSongIndex));
-                    viewModel.nextSong();
-                } else {
-                    viewModel.nextSong();
-                }
-            }
-        });
+//        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                if (repeat) {
+//                    viewModel.repeatSong();
+//                } else if (shuffle) {
+////                    Random random = new Random();
+////                    currentSongIndex = random.nextInt((mSongList.size() - 1) + 1);
+////                    playSong(mSongList.get(currentSongIndex));
+//                    viewModel.nextSong();
+//                } else {
+//                    viewModel.nextSong();
+//                }
+//            }
+//        });
     }
 
     private void checkIncomingCalls(Context context) {
@@ -200,12 +206,11 @@ class MusicView extends FrameLayout implements
     }
 
     private void initViews(ViewGroup viewConversation) {
+        if(mMediaPlayer != null)
+            mMediaPlayer.release();
+
         mMediaPlayer = new MediaPlayer();
-        try{
-        mMediaPlayer.stop();}
-        catch (Exception e){
-            Log.e("tag", "initViews: " + e.getMessage() );
-        }
+
         timeUtil = new TimeUtil();
 
         mMediaLayout = viewConversation.findViewById(R.id.layout_media);
@@ -312,12 +317,11 @@ class MusicView extends FrameLayout implements
         mIvPrevious.setVisibility(VISIBLE);
         try {
             mMediaPlayer.reset();
-            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setDataSource(context, Uri.parse(song.getSongLink()));
+//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setDataSource(context, FileProvider.getUriForFile(context,context.getPackageName() + ".provider", new File(song.getSongLink())));
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mMediaPlayer.stop();
                     mMediaPlayer.start();
                     // Displaying Song title
                     //      isPlaying = true;
