@@ -325,6 +325,7 @@ public class MusicView extends FrameLayout implements
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setDataSource(context, FileProvider.getUriForFile(context,context.getPackageName() + ".provider", new File(song.getSongLink())));
+            updateProgressBar();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -342,7 +343,6 @@ public class MusicView extends FrameLayout implements
                     songProgressBar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 
                     // Updating progress bar
-                    updateProgressBar();
                     Glide.with(context.getApplicationContext()).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
                 }
             });
