@@ -135,7 +135,7 @@ public class MusicView extends FrameLayout implements
                 if (currentSong != null && currentSong.getTitle().equals(song.getTitle()))
                     return;
                 if(currentSong != null)
-                    Log.e("tag", "onChanged: " + song.getTitle() + " " + currentSong.getTitle() );
+                    Log.e("tag", "Playing song: " + song.getTitle() + " " + currentSong.getTitle() );
                 currentSong = song;
                 playSong(song);
                 if (viewModel.getAllSongs().getValue() != null)
@@ -317,7 +317,7 @@ public class MusicView extends FrameLayout implements
         mIvPrevious.setVisibility(VISIBLE);
         try {
             mMediaPlayer.reset();
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setDataSource(context, FileProvider.getUriForFile(context,context.getPackageName() + ".provider", new File(song.getSongLink())));
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -349,6 +349,7 @@ public class MusicView extends FrameLayout implements
     }
 
     public void updateProgressBar() {
+        mHandler = new Handler(context.getMainLooper());
         mHandler.postDelayed(mUpdateTimeTask, 100);
     }
 
