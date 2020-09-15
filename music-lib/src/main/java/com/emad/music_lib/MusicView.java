@@ -326,24 +326,22 @@ public class MusicView extends FrameLayout implements
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setDataSource(context, FileProvider.getUriForFile(context,context.getPackageName() + ".provider", new File(song.getSongLink())));
             updateProgressBar();
+            mIvPlay.setBackground(getResources().getDrawable(android.R.drawable.ic_media_pause));
+            mMediaLayout.setVisibility(View.VISIBLE);
+            mTvTitle.setText(song.getTitle());
+            // set Progress bar values
+            songProgressBar.setProgress(0);
+            songProgressBar.setMax(100);
+
+            songProgressBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+            songProgressBar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+
+            // Updating progress bar
+            Glide.with(context.getApplicationContext()).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mMediaPlayer.start();
-                    // Displaying Song title
-                    //      isPlaying = true;
-                    mIvPlay.setBackground(getResources().getDrawable(android.R.drawable.ic_media_pause));
-                    mMediaLayout.setVisibility(View.VISIBLE);
-                    mTvTitle.setText(song.getTitle());
-                    // set Progress bar values
-                    songProgressBar.setProgress(0);
-                    songProgressBar.setMax(100);
-
-                    songProgressBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-                    songProgressBar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-
-                    // Updating progress bar
-                    Glide.with(context.getApplicationContext()).load(song.getThumbnail()).circleCrop().placeholder(R.drawable.play).error(R.drawable.play).into(mIvArtwork);
                 }
             });
             mMediaPlayer.prepare();
