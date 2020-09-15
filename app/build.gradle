@@ -4,14 +4,14 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
-    signingConfigs {
-        fullRelease {
-            storeFile file('C:\\Users\\PC-01\\Desktop\\AV JKS\\KeyStoreAV-Client')
-            storePassword 'ArmanVarzesh@98093#Client'
-            keyAlias 'ArmanVarzesh-Client'
-            keyPassword 'ArmanVarzesh@4221301#Client'
-        }
-    }
+//    signingConfigs {
+//        fullRelease {
+//            storeFile file('C:\\Users\\PC-01\\Desktop\\AV JKS\\KeyStoreAV-Client')
+//            storePassword 'ArmanVarzesh@98093#Client'
+//            keyAlias 'ArmanVarzesh-Client'
+//            keyPassword 'ArmanVarzesh@4221301#Client'
+//        }
+//    }
 
     defaultConfig {
         applicationId "com.emad.bottommusicplayer"
@@ -21,7 +21,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.fullRelease
+
     }
 
 
