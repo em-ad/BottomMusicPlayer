@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
@@ -76,8 +77,9 @@ public class MusicView extends FrameLayout implements
     private MusicViewModel viewModel;
     private Song currentSong = null;
 
-    private Runnable mUpdateTimeTask = new Runnable() {
-        public void run() {
+    private CountDownTimer mUpdateTimeTask = new CountDownTimer(1000, 100) {
+        @Override
+        public void onTick(long millisUntilFinished) {
             if (mMediaPlayer == null) return;
             long totalDuration = mMediaPlayer.getDuration();
             long currentDuration = mMediaPlayer.getCurrentPosition();
@@ -85,7 +87,11 @@ public class MusicView extends FrameLayout implements
             mTvCurrentDuration.setText(String.format("%s", timeUtil.milliSecondsToTimer(currentDuration)));
             int progress = (timeUtil.getProgressPercentage(currentDuration, totalDuration));
             songProgressBar.setProgress(progress);
-            mHandler.postDelayed(this, 100);
+        }
+
+        @Override
+        public void onFinish() {
+            this.start();
         }
     };
 
@@ -349,8 +355,7 @@ public class MusicView extends FrameLayout implements
     }
 
     public void updateProgressBar() {
-        mHandler = new Handler(context.getMainLooper());
-        mHandler.postDelayed(mUpdateTimeTask, 100);
+        mUpdateTimeTask.start();
     }
 
     @Override
@@ -380,12 +385,12 @@ public class MusicView extends FrameLayout implements
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        mHandler.removeCallbacks(mUpdateTimeTask);
+       mUpdateTimeTask.cancel();
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        mHandler.removeCallbacks(mUpdateTimeTask);
+        mUpdateTimeTask.cancel();
         int totalDuration = mMediaPlayer.getDuration();
         int currentPosition = timeUtil.progressToTimer(seekBar.getProgress(), totalDuration);
         mMediaPlayer.seekTo(currentPosition);
